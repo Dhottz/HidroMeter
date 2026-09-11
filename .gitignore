@@ -5,15 +5,12 @@ dist/
 build/
 *.log
 .DS_Store
-
+.claude/
 # Python
 __pycache__/
 *.pyc
 .venv/
 venv/
-
-# Prisma
-prisma/*.db
 
 # IDE
 .vscode/

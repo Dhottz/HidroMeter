@@ -32,7 +32,7 @@
 
 - RNF01: Senhas armazenadas com hash (bcrypt), nunca em texto puro.
 - RNF02: Autenticação via JWT, expiração configurável.
-- RNF03: Schema do banco versionado via Prisma migrations.
+- RNF03: Schema do banco versionado via Alembic migrations.
 - RNF04: Simulador deve gerar dataset reprodutível (seed fixa) para permitir testes consistentes.
 - RNF05: API deve responder listagens paginadas quando o volume de dados justificar (ex: leituras).
 

@@ -1,0 +1,16 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: hidrometer_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: hidrometer
+      POSTGRES_PASSWORD: hidrometer
+      POSTGRES_DB: hidrometer
+    ports:
+      - "5434:5432"
+    volumes:
+      - hidrometer_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  hidrometer_postgres_data:

@@ -17,10 +17,10 @@ Dois papéis de usuário:
 
 ## Stack
 
-- **Backend**: Node.js + Express + Prisma ORM
+- **Backend**: Python + FastAPI + SQLAlchemy (Alembic para migrations)
 - **Banco**: PostgreSQL (Docker)
 - **Frontend**: React
-- **Análise de dados**: Python (pandas), processo separado, lendo/escrevendo no mesmo Postgres
+- **Análise de dados**: Python (pandas), processo separado do backend (mesma linguagem, mas continuam sendo dois processos distintos), lendo/escrevendo no mesmo Postgres
 - **Simulador**: script que gera um dataset histórico de uma vez (não é um processo contínuo por enquanto)
 - **Autenticação**: JWT + bcrypt para hash de senha
 
@@ -94,6 +94,6 @@ Cada entrega é uma fatia vertical completa — envolve banco, backend e fronten
 
 - Simulador gera o dataset histórico de uma vez (3 meses) — não depende de hardware físico em nenhum momento.
 - A análise de dados em Python (pandas) roda como processo separado, lendo do mesmo Postgres, alimentando `alertas` e `recomendacoes`.
-- Manter o schema do Prisma como fonte única de verdade do banco.
+- Manter o schema dos models (SQLAlchemy) como fonte única de verdade do banco.
 - Documentar cada entrega com: o que foi implementado, decisões técnicas, e print/demo do fluxo funcionando.
 - Ver `docs/` para personas, requisitos e decisões técnicas detalhadas (material de análise/especificação da disciplina).
