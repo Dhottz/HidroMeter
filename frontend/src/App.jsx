@@ -2,6 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
 import PrivateRoute from "./components/PrivateRoute.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
+import ConsumoPage from "./pages/ConsumoPage.jsx";
 import UnidadesPage from "./pages/UnidadesPage.jsx";
 
 export default function App() {
@@ -15,6 +16,14 @@ export default function App() {
           element={
             <PrivateRoute>
               <UnidadesPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/consumo"
+          element={
+            <PrivateRoute>
+              <ConsumoPage />
             </PrivateRoute>
           }
         />

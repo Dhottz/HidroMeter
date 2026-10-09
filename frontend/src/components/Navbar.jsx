@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx";
 
 export default function Navbar() {
@@ -15,6 +15,10 @@ export default function Navbar() {
   return (
     <header className="navbar">
       <span className="navbar__brand">HidroMeter</span>
+      <nav className="navbar__links">
+        <NavLink to="/unidades">Unidades</NavLink>
+        <NavLink to="/consumo">Consumo</NavLink>
+      </nav>
       <span className="navbar__user">
         {user.nome} <em>({user.papel})</em>
       </span>

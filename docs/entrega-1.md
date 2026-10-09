@@ -20,7 +20,7 @@ Fatia vertical completa (banco + backend + frontend) cobrindo autenticação e c
 
 **Frontend** (React + Vite, `frontend/src/`):
 - Tela de login (`LoginPage`) — autentica e guarda o JWT
-- Tela de unidades (`UnidadesPage`) — síndico vê todas as unidades do condomínio agrupadas por bloco, com formulário para cadastrar bloco, edição inline do nome do bloco e remoção de unidade; morador vê somente a(s) própria(s) unidade(s), sem controles de edição
+- Tela de unidades (`UnidadesPage`) — síndico vê todas as unidades do condomínio agrupadas por bloco, com formulário para cadastrar bloco, edição inline do nome do bloco e remoção de bloco (com confirmação, remove em cascata as unidades e hidrômetros dentro dele) ou de unidade individual; morador vê somente a(s) própria(s) unidade(s), sem controles de edição
 - Cadastro de unidades em dois modos: **por andar** (padrão comum de prédio — informa andar inicial, andar final e quantidade de apartamentos por andar, e o sistema gera "101, 102, 103, 201, 202, 203..." sozinho) ou **lista manual** (números avulsos separados por vírgula, para numeração fora do padrão). Os dois modos reaproveitam o mesmo `POST /api/unidades` em lote; cada unidade criada já ganha seu hidrômetro automaticamente
 - `AuthContext` guarda o token no `localStorage`; rotas privadas redirecionam para `/login` se não autenticado
 

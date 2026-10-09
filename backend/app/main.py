@@ -3,7 +3,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
-from app.routers import auth, blocos, condominios, hidrometros, unidades
+from app.routers import auth, blocos, condominios, consumo, hidrometros, leituras, unidades
 
 app = FastAPI(title="HidroMeter API")
 
@@ -38,3 +38,5 @@ app.include_router(condominios.router)
 app.include_router(blocos.router)
 app.include_router(unidades.router)
 app.include_router(hidrometros.router)
+app.include_router(leituras.router)
+app.include_router(consumo.router)

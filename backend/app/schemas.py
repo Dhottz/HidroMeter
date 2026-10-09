@@ -3,7 +3,10 @@ numeroSerie, litrosPorPulso...) mesmo com os models SQLAlchemy em snake_case —
 mantém o contrato REST idêntico ao que o frontend já consome.
 """
 
-from pydantic import BaseModel, ConfigDict
+from datetime import datetime
+from typing import Annotated, Literal
+
+from pydantic import AfterValidator, BaseModel, ConfigDict, Field
 
 from app.models import Papel
 
@@ -125,3 +128,50 @@ class UnidadeCreate(CamelModel):
 
 class UnidadeUpdate(CamelModel):
     numero: str
+
+
+# ---- Leitura ----
+
+
+def _sem_fuso(valor: datetime) -> datetime:
+    # Timestamps são horário local do condomínio, sem fuso (decisão técnica 6).
+    return valor.replace(tzinfo=None)
+
+
+class LeituraIn(CamelModel):
+    hidrometro_id: int
+    timestamp: Annotated[datetime, AfterValidator(_sem_fuso)]
+    litros_acumulados: float = Field(ge=0)
+
+
+class LeituraLoteIn(CamelModel):
+    leituras: list[LeituraIn] = Field(min_length=1, max_length=5000)
+
+
+class LeituraOut(CamelModel):
+    id: int
+    hidrometro_id: int
+    timestamp: datetime
+    litros_acumulados: float
+    vazao_instantanea: float | None = None
+
+
+class LeituraPaginaOut(CamelModel):
+    total: int
+    limite: int
+    deslocamento: int
+    itens: list[LeituraOut]
+
+
+class ConsumoPontoOut(CamelModel):
+    inicio: datetime
+    litros: float
+
+
+class ConsumoOut(CamelModel):
+    unidade_id: int
+    agrupar: Literal["hora", "dia"]
+    de: datetime | None = None
+    ate: datetime | None = None
+    total_litros: float
+    pontos: list[ConsumoPontoOut]

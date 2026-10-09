@@ -51,6 +51,7 @@ export default function UnidadesPage() {
   });
   const [blocoEmEdicao, setBlocoEmEdicao] = useState(null); // { id, nome }
   const [unidadeConfirmandoRemocao, setUnidadeConfirmandoRemocao] = useState(null); // id
+  const [blocoConfirmandoRemocao, setBlocoConfirmandoRemocao] = useState(null); // id
 
   const numerosGerados =
     novaUnidade.modo === "andares" ? gerarNumerosPorAndar(novaUnidade) : parseNumeros(novaUnidade.numeros);
@@ -131,6 +132,16 @@ export default function UnidadesPage() {
       await carregarDados();
     } catch (err) {
       setErro(err.response?.data?.erro || "Erro ao remover unidade.");
+    }
+  }
+
+  async function handleRemoverBloco(id) {
+    try {
+      await api.delete(`/blocos/${id}`);
+      setBlocoConfirmandoRemocao(null);
+      await carregarDados();
+    } catch (err) {
+      setErro(err.response?.data?.erro || "Erro ao remover bloco.");
     }
   }
 
@@ -290,6 +301,23 @@ export default function UnidadesPage() {
                   >
                     editar
                   </button>
+                )}
+                {isSindico && blocoConfirmandoRemocao === bloco.id ? (
+                  <span className="confirmacao-remocao">
+                    remover o bloco e tudo dentro dele?
+                    <button className="link" onClick={() => handleRemoverBloco(bloco.id)}>
+                      sim
+                    </button>
+                    <button className="link" onClick={() => setBlocoConfirmandoRemocao(null)}>
+                      não
+                    </button>
+                  </span>
+                ) : (
+                  isSindico && (
+                    <button className="link" onClick={() => setBlocoConfirmandoRemocao(bloco.id)}>
+                      remover bloco
+                    </button>
+                  )
                 )}
               </h2>
             )}

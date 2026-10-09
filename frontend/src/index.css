@@ -140,6 +140,7 @@ form {
   font-size: 0.8rem;
   color: var(--erro);
   white-space: nowrap;
+  margin-left: 0.5rem;
 }
 
 label {
@@ -219,4 +220,90 @@ td {
 .erro {
   color: var(--erro);
   font-size: 0.9rem;
+}
+
+.navbar__links {
+  display: flex;
+  gap: 1rem;
+  margin-left: 1rem;
+}
+
+.navbar__links a {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  padding-bottom: 2px;
+}
+
+.navbar__links a.active {
+  color: white;
+  border-bottom: 2px solid white;
+}
+
+.consumo-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.consumo-filtros label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.consumo-botoes {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin-top: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.consumo-botoes button {
+  background: white;
+  color: var(--azul-escuro);
+  border: 1px solid var(--borda);
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+}
+
+.consumo-botoes button:hover:not(:disabled) {
+  background: #e6f1f8;
+}
+
+.consumo-botoes button.ativo,
+.consumo-botoes button.ativo:hover {
+  background: var(--azul);
+  border-color: var(--azul);
+  color: white;
+}
+
+.consumo-botoes button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.consumo-resumo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.consumo-resumo div {
+  display: flex;
+  flex-direction: column;
+}
+
+.consumo-resumo strong {
+  font-size: 1.25rem;
+  color: var(--azul-escuro);
+}
+
+.consumo-grafico {
+  height: 320px;
 }

@@ -1,14 +1,14 @@
 """Models SQLAlchemy — fonte única de verdade do schema do banco.
 
 Entrega 1: condominios, blocos, unidades, hidrometros, usuarios e as tabelas
-de junção N:N de acesso. leituras/alertas/recomendacoes entram nas entregas
-2-4.
+de junção N:N de acesso. Entrega 2: leituras. alertas/recomendacoes entram nas
+entregas 3-4.
 """
 
 import enum
 from datetime import datetime, timezone
 
-from sqlalchemy import Enum, Float, ForeignKey, String, UniqueConstraint
+from sqlalchemy import DateTime, Enum, Float, ForeignKey, String, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -63,6 +63,29 @@ class Hidrometro(Base):
     litros_por_pulso: Mapped[float] = mapped_column(Float, default=1)
 
     unidade: Mapped["Unidade"] = relationship(back_populates="hidrometros")
+    leituras: Mapped[list["Leitura"]] = relationship(
+        back_populates="hidrometro", cascade="all, delete-orphan", passive_deletes=True
+    )
+
+
+class Leitura(Base):
+    """Leitura do contador de um hidrômetro. `litros_acumulados` é cumulativo
+    (odômetro, nunca zera); `vazao_instantanea` (L/h) é derivada da leitura
+    anterior no momento da ingestão — nula na primeira leitura do hidrômetro
+    (ver docs/decisoes-tecnicas.md, decisão 1). `timestamp` é o horário local
+    do condomínio, sem fuso (decisão 6)."""
+
+    __tablename__ = "leituras"
+    # A unique constraint já cria o índice (hidrometro_id, timestamp) usado nas consultas por período.
+    __table_args__ = (UniqueConstraint("hidrometro_id", "timestamp"),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    hidrometro_id: Mapped[int] = mapped_column(ForeignKey("hidrometros.id", ondelete="CASCADE"))
+    timestamp: Mapped[datetime] = mapped_column(DateTime)
+    litros_acumulados: Mapped[float] = mapped_column(Float)
+    vazao_instantanea: Mapped[float | None] = mapped_column(Float, nullable=True)
+
+    hidrometro: Mapped["Hidrometro"] = relationship(back_populates="leituras")
 
 
 class Usuario(Base):

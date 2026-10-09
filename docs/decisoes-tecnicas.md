@@ -27,3 +27,7 @@ Ver `plano-projeto-hidrometro.md`. Escolhido baseline adaptativo (mediana da vaz
 ## 5. Dataset simulado gerado de uma vez (não em tempo real)
 
 Para ter volume de dados suficiente para análise/previsão desde já, sem depender de um processo rodando por semanas. O simulador gera 3 meses de histórico numa única execução, com seed fixa para reprodutibilidade (RNF04).
+
+## 6. Timestamps em horário local do condomínio, sem fuso
+
+`leituras.timestamp` é `timestamp without time zone` e representa o horário local do condomínio. A detecção MNF depende de "madrugada" (00h–05h) e os perfis de consumo dependem da hora do dia; gravar em UTC deslocaria a janela noturna em 3 h e exigiria conversão em toda consulta. Como o sistema atende um único fuso nesta fase, a API descarta o fuso de timestamps que cheguem com offset (o relógio é mantido, só o offset some) — quem envia deve mandar o horário local do condomínio. Se um dia houver condomínios em fusos diferentes, o caminho é guardar em UTC e converter pelo fuso do condomínio.
